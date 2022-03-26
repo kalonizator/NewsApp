@@ -24,8 +24,7 @@ final class NetworkManager: NetworkManagerProtocol {
         return components
     }
 
-    func request<T>(from endpoint: API) -> AnyPublisher<T, APIError>
-    where T: Decodable {
+    func request<T: Decodable>(from endpoint: API) -> AnyPublisher<T, APIError> {
         let components = buildURL(endpoint: endpoint)
 
         let sessionConfig = URLSessionConfiguration.default
