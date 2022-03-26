@@ -8,7 +8,7 @@ import Foundation
 import Combine
 
 protocol NetworkManagerProtocol {
-    func request<T>(from endpoint: API) -> AnyPublisher<T, APIError> where T: Decodable, T: Encodable
+    func request<T>(from endpoint: API, object: T.Type) -> AnyPublisher<T, APIError> where T: Decodable, T: Encodable
 }
 
 final class NetworkManager: NetworkManagerProtocol {
@@ -24,8 +24,7 @@ final class NetworkManager: NetworkManagerProtocol {
         return components
     }
 
-    func request<T>(from endpoint: API) -> AnyPublisher<T, APIError>
-    where T: Decodable {
+  func request<T: Decodable>(from endpoint: API, object: T.Type) -> AnyPublisher<T, APIError> {
         let components = buildURL(endpoint: endpoint)
 
         let sessionConfig = URLSessionConfiguration.default

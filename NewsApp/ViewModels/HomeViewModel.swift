@@ -26,7 +26,7 @@ class HomeViewModel: ObservableObject, HomeVMP {
     func getArticles() {
         self.state = .loading
         let cancellable = network
-            .request(from: NewsAPI.getArticles)
+        .request(from: NewsAPI.getArticles, object: Article.self)
             .sink { result in
                 switch result {
                 case .finished:
@@ -34,11 +34,8 @@ class HomeViewModel: ObservableObject, HomeVMP {
                 case .failure(let error):
                     self.state = .failed(error: error)
                 }
-            } receiveValue: { response in
-                guard let response = response as? NewsResponse else {
-                    fatalError()
-                }
-                self.articles = response.articles
+            } receiveValue: { _ in 
+              fatalError()
             }
 
         self.cancellables.insert(cancellable)
