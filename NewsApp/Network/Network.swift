@@ -4,13 +4,18 @@
 //
 //  Created by Yermek Sabyrzhan on 26.03.2022.
 //
-
-import UIKit
 import Foundation
+import Combine
 
-final class NetworkManager {
-    
-    private class func buildURL(endpoint: API) -> URLComponents {
+protocol NetworkManagerProtocol {
+    func request<T>(from endpoint: API) -> AnyPublisher<T, APIError> where T: Decodable, T: Encodable
+}
+
+final class NetworkManager: NetworkManagerProtocol {
+
+    public var requestTimeOut: Float = 30
+
+    private func buildURL(endpoint: API) -> URLComponents {
         var components = URLComponents()
         components.scheme = endpoint.scheme.rawValue
         components.host = endpoint.baseURL
@@ -19,66 +24,36 @@ final class NetworkManager {
         return components
     }
 
-    class func request<T: Decodable>(endpoint: API,
-                                     completion: @escaping (Result<T, Error>)
-                                     -> Void) {
+    func request<T>(from endpoint: API) -> AnyPublisher<T, APIError>
+    where T: Decodable {
         let components = buildURL(endpoint: endpoint)
-        guard let url = components.url else {
-            print("URL creation error")
-            return
-        }
 
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = endpoint.method.rawValue
-        let session = URLSession(configuration: .default)
-        let dataTask = session.dataTask(with: urlRequest) {
-            data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                print("Unknown error", error)
-                return
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.timeoutIntervalForRequest = TimeInterval(requestTimeOut)
+
+        guard let url = components.url
+        else { return Fail<T, APIError>(error: APIError.incorrectURL).eraseToAnyPublisher() }
+
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .receive(on: DispatchQueue.main)
+            .mapError { _ in APIError.unknown }
+            .flatMap { data, response -> AnyPublisher<T, APIError> in
+                guard let response = response as? HTTPURLResponse
+                else { return Fail<T, APIError>(error: APIError.unknown).eraseToAnyPublisher() }
+                switch response.statusCode {
+                case 200...299:
+                    let jsonDecoder = JSONDecoder()
+                    jsonDecoder.dateDecodingStrategy = .iso8601
+                    return Just(data)
+                        .decode(type: T.self, decoder: jsonDecoder)
+                        .mapError { _ in APIError.decodingError }
+                        .eraseToAnyPublisher()
+                default:
+                    return Fail<T, APIError>(error: APIError.errorCode(response.statusCode)).eraseToAnyPublisher()
+                }
             }
-            guard response != nil, let data = data else {
-                return
-            }
-            if let responseObject = try? JSONDecoder().decode(T.self, from: data) {
-                completion(.success(responseObject))
-            } else {
-                let error = NSError(domain: "com.tisobyn",
-                                    code: 200,
-                                    userInfo: [
-                                        NSLocalizedDescriptionKey: "Failed"
-                                    ])
-                completion(.failure(error))
-            }
-        }
-        dataTask.resume()
+            .eraseToAnyPublisher()
     }
+
 }
 
-
-
-final class TableVC: UITableViewController {
-    let query = "query"
-    let latitude = 000
-    let longitude = 000
-
-
-    func getGooglePlaces() {
-        let endpoint = NewsAPI.getArticles
-        NetworkManager.request(endpoint: endpoint) { [weak self]
-                        (result: Result<NewsResponse, Error>) in
-                        switch result {
-                        case .success(let response):
-//                            self?.dataSource = response.results
-//                            self?.tableView.reloadData()
-                        case .failure(let error):
-                            Log.error(error)
-                        }
-        }
-    }
-
-    func setImage() {
-        //        thumbnailImageView.loadImageFromURL(urlString: photoURL)
-    }
-}

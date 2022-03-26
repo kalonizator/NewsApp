@@ -16,6 +16,9 @@
 		3EB0EAF927EF55E50069D2B8 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB0EAF827EF55E50069D2B8 /* Api.swift */; };
 		3EB0EAFB27EF56080069D2B8 /* NewsApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB0EAFA27EF56080069D2B8 /* NewsApi.swift */; };
 		3EB0EAFE27EF56560069D2B8 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB0EAFD27EF56560069D2B8 /* UIImage+Extension.swift */; };
+		3EB0EB0227EF59170069D2B8 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB0EB0127EF59170069D2B8 /* APIError.swift */; };
+		3EB0EB0427EF60F20069D2B8 /* ResultState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB0EB0327EF60F20069D2B8 /* ResultState.swift */; };
+		3EB0EB0727EF61690069D2B8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB0EB0627EF61690069D2B8 /* HomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,9 @@
 		3EB0EAF827EF55E50069D2B8 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 		3EB0EAFA27EF56080069D2B8 /* NewsApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsApi.swift; sourceTree = "<group>"; };
 		3EB0EAFD27EF56560069D2B8 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		3EB0EB0127EF59170069D2B8 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		3EB0EB0327EF60F20069D2B8 /* ResultState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultState.swift; sourceTree = "<group>"; };
+		3EB0EB0627EF61690069D2B8 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +71,7 @@
 				3EB0EAFC27EF56460069D2B8 /* Helpers */,
 				3EB0EAF527EF54B00069D2B8 /* Network */,
 				3EB0EAEF27EF51BD0069D2B8 /* Views */,
+				3EB0EB0527EF614A0069D2B8 /* ViewModels */,
 				3EB0EAF227EF53240069D2B8 /* Models */,
 			);
 			path = NewsApp;
@@ -110,6 +117,7 @@
 				3EB0EAF627EF54C20069D2B8 /* Network.swift */,
 				3EB0EAF827EF55E50069D2B8 /* Api.swift */,
 				3EB0EAFA27EF56080069D2B8 /* NewsApi.swift */,
+				3EB0EB0327EF60F20069D2B8 /* ResultState.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -117,9 +125,34 @@
 		3EB0EAFC27EF56460069D2B8 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				3EB0EAFD27EF56560069D2B8 /* UIImage+Extension.swift */,
+				3EB0EB0027EF59070069D2B8 /* Errors */,
+				3EB0EAFF27EF59000069D2B8 /* Extensions */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		3EB0EAFF27EF59000069D2B8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3EB0EAFD27EF56560069D2B8 /* UIImage+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3EB0EB0027EF59070069D2B8 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				3EB0EB0127EF59170069D2B8 /* APIError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		3EB0EB0527EF614A0069D2B8 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				3EB0EB0627EF61690069D2B8 /* HomeViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,9 +227,12 @@
 			files = (
 				3EB0EAF127EF52820069D2B8 /* HomeView.swift in Sources */,
 				3EB0EAFB27EF56080069D2B8 /* NewsApi.swift in Sources */,
+				3EB0EB0427EF60F20069D2B8 /* ResultState.swift in Sources */,
+				3EB0EB0727EF61690069D2B8 /* HomeViewModel.swift in Sources */,
 				3EB0EAFE27EF56560069D2B8 /* UIImage+Extension.swift in Sources */,
 				3EB0EAF427EF53570069D2B8 /* NewsResponse.swift in Sources */,
 				3EB0EAF727EF54C20069D2B8 /* Network.swift in Sources */,
+				3EB0EB0227EF59170069D2B8 /* APIError.swift in Sources */,
 				3EB0EAF927EF55E50069D2B8 /* Api.swift in Sources */,
 				3EB0EAE127EF50A80069D2B8 /* NewsAppApp.swift in Sources */,
 			);
@@ -326,7 +362,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"NewsApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"NewsApp/Main/Preview Content\"";
 				DEVELOPMENT_TEAM = T9ZCYF5F85;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -355,7 +391,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"NewsApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"NewsApp/Main/Preview Content\"";
 				DEVELOPMENT_TEAM = T9ZCYF5F85;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
